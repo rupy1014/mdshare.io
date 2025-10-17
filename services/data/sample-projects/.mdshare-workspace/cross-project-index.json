@@ -1,0 +1,255 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "generatedAt": "2024-01-15T10:30:00Z",
+    "totalProjects": 5,
+    "analysisType": "cross-project-unified",
+    "confidence": 0.94
+  },
+  "projectOverview": {
+    "internal-api": {
+      "name": "Internal API Service",
+      "type": "backend-service",
+      "criticality": "high",
+      "status": "active",
+      "health": "healthy",
+      "lastUpdated": "2024-01-15T09:45:00Z",
+      "dependencies": ["analytics-service"],
+      "usedBy": ["external-api", "admin-panel", "user-portal"],
+      "apiEndpoints": 45,
+      "performance": {
+        "responseTime": "120ms",
+        "throughput": "1200 req/s",
+        "errorRate": "0.1%",
+        "uptime": "99.9%"
+      }
+    },
+    "external-api": {
+      "name": "External API Service", 
+      "type": "public-api",
+      "criticality": "high",
+      "status": "active",
+      "health": "healthy",
+      "lastUpdated": "2024-01-14T16:20:00Z",
+      "dependencies": ["internal-api", "analytics-service"],
+      "usedBy": ["user-portal", "mobile-apps", "partner-apis"],
+      "apiEndpoints": 32,
+      "performance": {
+        "responseTime": "180ms",
+        "throughput": "800 req/s",
+        "errorRate": "0.2%",
+        "uptime": "99.8%"
+      }
+    },
+    "admin-panel": {
+      "name": "Admin Panel",
+      "type": "management-ui",
+      "criticality": "medium",
+      "status": "active",
+      "health": "healthy",
+      "lastUpdated": "2024-01-13T11:30:00Z",
+      "dependencies": ["internal-api", "analytics-service"],
+      "usedBy": ["admin-users"],
+      "features": 45,
+      "performance": {
+        "loadTime": "2.1s",
+        "userSessions": "25",
+        "errorRate": "0.05%",
+        "uptime": "99.95%"
+      }
+    },
+    "user-portal": {
+      "name": "User Portal",
+      "type": "user-interface",
+      "criticality": "medium",
+      "status": "active",
+      "health": "healthy",
+      "lastUpdated": "2024-01-12T14:15:00Z",
+      "dependencies": ["external-api", "analytics-service"],
+      "usedBy": ["end-users"],
+      "features": 38,
+      "performance": {
+        "loadTime": "1.8s",
+        "userSessions": "1250",
+        "errorRate": "0.1%",
+        "uptime": "99.9%"
+      }
+    },
+    "analytics-service": {
+      "name": "Analytics Service",
+      "type": "supporting-service",
+      "criticality": "medium",
+      "status": "active",
+      "health": "warning",
+      "lastUpdated": "2024-01-11T08:30:00Z",
+      "dependencies": [],
+      "usedBy": ["internal-api", "external-api", "admin-panel", "user-portal"],
+      "metrics": 156,
+      "performance": {
+        "responseTime": "95ms",
+        "throughput": "5000 events/s",
+        "errorRate": "0.3%",
+        "uptime": "99.7%",
+        "cpuUsage": "78%",
+        "memoryUsage": "3.2GB/4GB"
+      }
+    }
+  },
+  "dependencyGraph": {
+    "analytics-service": {
+      "provides": ["logging", "monitoring", "metrics", "events"],
+      "consumedBy": ["internal-api", "external-api", "admin-panel", "user-portal"],
+      "dataFlow": {
+        "internal-api": "high",
+        "external-api": "high", 
+        "admin-panel": "medium",
+        "user-portal": "medium"
+      }
+    },
+    "internal-api": {
+      "provides": ["business-logic", "data-access", "authentication", "authorization"],
+      "consumedBy": ["external-api", "admin-panel"],
+      "dataFlow": {
+        "external-api": "high",
+        "admin-panel": "high"
+      }
+    },
+    "external-api": {
+      "provides": ["public-api", "rate-limiting", "api-gateway"],
+      "consumedBy": ["user-portal", "mobile-apps"],
+      "dataFlow": {
+        "user-portal": "high"
+      }
+    }
+  },
+  "crossProjectFeatures": {
+    "authentication": {
+      "implementedIn": ["internal-api"],
+      "usedBy": ["external-api", "admin-panel", "user-portal"],
+      "standards": ["JWT", "OAuth2", "API-Key"],
+      "status": "stable"
+    },
+    "userManagement": {
+      "implementedIn": ["internal-api"],
+      "usedBy": ["external-api", "admin-panel", "user-portal"],
+      "features": ["CRUD", "roles", "permissions"],
+      "status": "stable"
+    },
+    "analytics": {
+      "implementedIn": ["analytics-service"],
+      "usedBy": ["internal-api", "external-api", "admin-panel", "user-portal"],
+      "features": ["events", "metrics", "dashboards"],
+      "status": "warning"
+    },
+    "notifications": {
+      "implementedIn": ["internal-api"],
+      "usedBy": ["admin-panel", "user-portal"],
+      "features": ["email", "push", "sms"],
+      "status": "beta"
+    }
+  },
+  "unifiedInsights": {
+    "architecture": {
+      "pattern": "microservices",
+      "strengths": ["scalability", "maintainability", "team-independence"],
+      "weaknesses": ["complexity", "network-latency", "data-consistency"],
+      "recommendations": [
+        "API Gateway 도입으로 외부 API 복잡성 감소",
+        "Event-driven 아키텍처로 서비스 간 결합도 감소",
+        "Circuit Breaker 패턴으로 장애 전파 방지"
+      ]
+    },
+    "performance": {
+      "bottlenecks": ["analytics-service CPU 사용률 높음"],
+      "optimization": [
+        "Analytics 서비스 수평 확장",
+        "캐싱 전략 강화",
+        "데이터베이스 쿼리 최적화"
+      ],
+      "trends": {
+        "traffic": "increasing",
+        "responseTime": "stable",
+        "errorRate": "decreasing"
+      }
+    },
+    "security": {
+      "status": "good",
+      "vulnerabilities": [],
+      "recommendations": [
+        "API 키 로테이션 정책 수립",
+        "Rate limiting 강화",
+        "보안 로깅 강화"
+      ]
+    }
+  },
+  "featureImpactAnalysis": {
+    "newPaymentSystem": {
+      "description": "새로운 결제 시스템 도입",
+      "impactedProjects": {
+        "internal-api": {
+          "impact": "high",
+          "changes": ["결제 모듈 추가", "결제 API 개발", "데이터베이스 스키마 변경"],
+          "estimatedEffort": "2주",
+          "riskLevel": "medium"
+        },
+        "external-api": {
+          "impact": "medium",
+          "changes": ["결제 API 엔드포인트 추가", "API 버전 업데이트"],
+          "estimatedEffort": "1주",
+          "riskLevel": "low"
+        },
+        "admin-panel": {
+          "impact": "medium",
+          "changes": ["결제 관리 UI", "결제 대시보드"],
+          "estimatedEffort": "1.5주",
+          "riskLevel": "low"
+        },
+        "user-portal": {
+          "impact": "low",
+          "changes": ["결제 페이지 UI"],
+          "estimatedEffort": "1주",
+          "riskLevel": "low"
+        },
+        "analytics-service": {
+          "impact": "medium",
+          "changes": ["결제 이벤트 트래킹", "결제 메트릭"],
+          "estimatedEffort": "0.5주",
+          "riskLevel": "low"
+        }
+      },
+      "implementationOrder": ["internal-api", "analytics-service", "external-api", "admin-panel", "user-portal"],
+      "criticalPath": ["internal-api", "external-api"],
+      "totalEstimatedEffort": "6주"
+    }
+  },
+  "policyRecommendations": {
+    "security": [
+      {
+        "title": "결제 데이터 암호화",
+        "description": "결제 관련 모든 데이터는 AES-256 암호화 적용",
+        "affectedProjects": ["internal-api", "analytics-service"],
+        "priority": "high",
+        "compliance": ["PCI-DSS", "개인정보보호법"],
+        "estimatedEffort": "1주"
+      }
+    ],
+    "performance": [
+      {
+        "title": "Analytics 서비스 최적화",
+        "description": "CPU 사용률 높음으로 인한 성능 개선 필요",
+        "affectedProjects": ["analytics-service"],
+        "priority": "medium",
+        "estimatedEffort": "0.5주"
+      }
+    ],
+    "architecture": [
+      {
+        "title": "API Gateway 도입",
+        "description": "외부 API 복잡성 감소 및 관리 효율성 향상",
+        "affectedProjects": ["external-api"],
+        "priority": "low",
+        "estimatedEffort": "2주"
+      }
+    ]
+  }
+}

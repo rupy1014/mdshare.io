@@ -1,0 +1,41 @@
+{
+  "project": {
+    "name": "Test Project",
+    "version": "1.0.0",
+    "description": "Test Project 프로젝트",
+    "author": "Test Author",
+    "license": "MIT",
+    "language": "ko",
+    "createdAt": "2025-10-17T05:23:32.012Z",
+    "updatedAt": "2025-10-17T05:23:32.012Z",
+    "type": "documentation",
+    "criticality": "medium"
+  },
+  "settings": {
+    "theme": "default",
+    "navigation": "sidebar",
+    "searchEnabled": true,
+    "aiFeaturesEnabled": true,
+    "autoIndexingEnabled": true,
+    "chatbotEnabled": true,
+    "allowDownload": true,
+    "allowComments": false
+  },
+  "ai": {
+    "autoTagging": true,
+    "autoCategorization": true,
+    "relationshipAnalysis": true,
+    "contentSuggestions": true,
+    "embeddingModel": "text-embedding-3-small",
+    "chatModel": "gpt-4o-mini"
+  },
+  "access": {
+    "visibility": "private",
+    "allowedDomains": [],
+    "passwordProtected": false
+  },
+  "deployment": {
+    "method": "manual",
+    "autoDeploy": false
+  }
+}

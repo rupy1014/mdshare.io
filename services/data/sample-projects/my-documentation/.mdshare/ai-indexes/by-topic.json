@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "generatedAt": "2024-01-15T10:30:00Z",
+    "totalTopics": 4,
+    "confidence": 0.92
+  },
+  "topics": [
+    {
+      "id": "installation-setup",
+      "name": "설치 및 설정",
+      "description": "프로젝트 설치, 환경 설정, 초기 구성 관련 문서",
+      "confidence": 0.95,
+      "documents": [
+        {
+          "path": "docs/getting-started/installation.md",
+          "title": "설치 가이드",
+          "relevanceScore": 0.98,
+          "keyPhrases": ["설치", "환경 설정", "의존성", "패키지", "npm", "yarn"]
+        },
+        {
+          "path": "docs/getting-started/configuration.md",
+          "title": "설정 가이드",
+          "relevanceScore": 0.94,
+          "keyPhrases": ["설정", "구성", "환경변수", "옵션", "config"]
+        }
+      ],
+      "relatedTopics": ["getting-started", "troubleshooting"],
+      "suggestedTags": ["installation", "setup", "configuration"]
+    },
+    {
+      "id": "api-development",
+      "name": "API 개발",
+      "description": "API 사용법, 엔드포인트, 개발 가이드 관련 문서",
+      "confidence": 0.89,
+      "documents": [
+        {
+          "path": "docs/api-reference/overview.md",
+          "title": "API 개요",
+          "relevanceScore": 0.96,
+          "keyPhrases": ["API", "REST", "엔드포인트", "HTTP", "응답"]
+        }
+      ],
+      "relatedTopics": ["authentication", "testing"],
+      "suggestedTags": ["api", "development", "rest"]
+    },
+    {
+      "id": "learning-tutorials",
+      "name": "학습 및 튜토리얼",
+      "description": "단계별 학습 가이드, 예제, 실습 관련 문서",
+      "confidence": 0.87,
+      "documents": [
+        {
+          "path": "docs/tutorials/basic-usage.md",
+          "title": "기본 사용법",
+          "relevanceScore": 0.93,
+          "keyPhrases": ["사용법", "예제", "튜토리얼", "기본", "시작"]
+        }
+      ],
+      "relatedTopics": ["examples", "best-practices"],
+      "suggestedTags": ["tutorial", "learning", "examples"]
+    },
+    {
+      "id": "data-samples",
+      "name": "데이터 및 샘플",
+      "description": "샘플 데이터, 예제 파일, 테스트 데이터 관련",
+      "confidence": 0.82,
+      "documents": [
+        {
+          "path": "data/samples/users.csv",
+          "title": "사용자 샘플 데이터",
+          "relevanceScore": 0.88,
+          "keyPhrases": ["샘플", "데이터", "사용자", "테스트", "CSV"]
+        }
+      ],
+      "relatedTopics": ["testing", "examples"],
+      "suggestedTags": ["data", "samples", "testing"]
+    }
+  ]
+}

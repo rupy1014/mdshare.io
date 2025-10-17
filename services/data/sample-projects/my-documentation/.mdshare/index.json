@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "version": "1.2.0",
+    "generatedAt": "2024-01-15T10:30:00Z",
+    "totalDocuments": 12,
+    "totalSize": "1.2MB",
+    "lastModified": "2024-01-15T09:45:00Z"
+  },
+  "structure": {
+    "docs": {
+      "path": "docs/",
+      "type": "folder",
+      "description": "메인 문서 폴더",
+      "children": [
+        {
+          "path": "docs/getting-started/",
+          "type": "folder",
+          "description": "시작 가이드",
+          "children": [
+            {
+              "path": "docs/getting-started/installation.md",
+              "type": "document",
+              "title": "설치 가이드",
+              "description": "프로젝트 설치 방법",
+              "tags": ["installation", "setup", "getting-started"],
+              "category": "getting-started",
+              "author": "김개발",
+              "createdAt": "2024-01-01T00:00:00Z",
+              "updatedAt": "2024-01-10T14:20:00Z",
+              "wordCount": 850,
+              "readingTime": "4분",
+              "difficulty": "beginner"
+            },
+            {
+              "path": "docs/getting-started/configuration.md",
+              "type": "document",
+              "title": "설정 가이드",
+              "description": "프로젝트 설정 방법",
+              "tags": ["configuration", "setup", "getting-started"],
+              "category": "getting-started",
+              "author": "김개발",
+              "createdAt": "2024-01-02T00:00:00Z",
+              "updatedAt": "2024-01-12T10:15:00Z",
+              "wordCount": 650,
+              "readingTime": "3분",
+              "difficulty": "beginner"
+            }
+          ]
+        },
+        {
+          "path": "docs/api-reference/",
+          "type": "folder",
+          "description": "API 문서",
+          "children": [
+            {
+              "path": "docs/api-reference/overview.md",
+              "type": "document",
+              "title": "API 개요",
+              "description": "API 기본 정보",
+              "tags": ["api", "overview", "reference"],
+              "category": "api-reference",
+              "author": "김개발",
+              "createdAt": "2024-01-05T00:00:00Z",
+              "updatedAt": "2024-01-15T09:45:00Z",
+              "wordCount": 1200,
+              "readingTime": "6분",
+              "difficulty": "intermediate"
+            }
+          ]
+        },
+        {
+          "path": "docs/tutorials/",
+          "type": "folder",
+          "description": "튜토리얼",
+          "children": [
+            {
+              "path": "docs/tutorials/basic-usage.md",
+              "type": "document",
+              "title": "기본 사용법",
+              "description": "프로젝트 기본 사용법",
+              "tags": ["tutorial", "basic", "usage"],
+              "category": "tutorials",
+              "author": "김개발",
+              "createdAt": "2024-01-08T00:00:00Z",
+              "updatedAt": "2024-01-14T16:30:00Z",
+              "wordCount": 1800,
+              "readingTime": "9분",
+              "difficulty": "beginner"
+            }
+          ]
+        }
+      ]
+    },
+    "data": {
+      "path": "data/",
+      "type": "folder",
+      "description": "데이터 폴더",
+      "children": [
+        {
+          "path": "data/samples/",
+          "type": "folder",
+          "description": "샘플 데이터",
+          "children": [
+            {
+              "path": "data/samples/users.csv",
+              "type": "data",
+              "title": "사용자 샘플 데이터",
+              "description": "테스트용 사용자 데이터",
+              "format": "csv",
+              "size": "2.1KB",
+              "rows": 50,
+              "columns": ["id", "name", "email", "role"]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "statistics": {
+    "byCategory": {
+      "getting-started": 2,
+      "api-reference": 1,
+      "tutorials": 1
+    },
+    "byAuthor": {
+      "김개발": 4
+    },
+    "byDifficulty": {
+      "beginner": 3,
+      "intermediate": 1
+    },
+    "recentUpdates": [
+      {
+        "path": "docs/api-reference/overview.md",
+        "title": "API 개요",
+        "updatedAt": "2024-01-15T09:45:00Z",
+        "changes": "새로운 엔드포인트 추가"
+      },
+      {
+        "path": "docs/tutorials/basic-usage.md",
+        "title": "기본 사용법",
+        "updatedAt": "2024-01-14T16:30:00Z",
+        "changes": "예시 코드 업데이트"
+      }
+    ]
+  },
+  "search": {
+    "keywords": [
+      "installation", "setup", "api", "tutorial", "configuration",
+      "getting-started", "basic", "usage", "overview"
+    ],
+    "popularSearches": [
+      "설치 방법",
+      "기본 사용법",
+      "API 사용법",
+      "설정 방법"
+    ]
+  }
+}

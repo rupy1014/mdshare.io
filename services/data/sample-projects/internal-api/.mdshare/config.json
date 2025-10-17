@@ -1,0 +1,54 @@
+{
+  "project": {
+    "name": "Internal API Service",
+    "version": "2.1.0",
+    "description": "핵심 비즈니스 로직을 처리하는 내부 API 서비스",
+    "author": "백엔드팀",
+    "license": "Proprietary",
+    "language": "ko",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T09:45:00Z",
+    "type": "backend-service",
+    "criticality": "high"
+  },
+  "settings": {
+    "theme": "default",
+    "navigation": "sidebar",
+    "searchEnabled": true,
+    "aiFeaturesEnabled": true,
+    "autoIndexingEnabled": true,
+    "chatbotEnabled": true,
+    "allowDownload": true,
+    "allowComments": true
+  },
+  "ai": {
+    "autoTagging": true,
+    "autoCategorization": true,
+    "relationshipAnalysis": true,
+    "contentSuggestions": true,
+    "embeddingModel": "text-embedding-3-small",
+    "chatModel": "gpt-4o-mini",
+    "crossProjectAnalysis": true
+  },
+  "access": {
+    "visibility": "private",
+    "inviteCode": "INTERNAL_API_2024",
+    "allowedDomains": ["company.com"],
+    "passwordProtected": false,
+    "roleBasedAccess": true
+  },
+  "deployment": {
+    "method": "kubernetes",
+    "customDomain": "api-internal.company.com",
+    "autoDeploy": true,
+    "buildCommand": "docker build -t internal-api .",
+    "environment": "production"
+  },
+  "integration": {
+    "dependsOn": ["analytics-service"],
+    "usedBy": ["external-api", "admin-panel", "user-portal"],
+    "apiEndpoints": 45,
+    "databaseConnections": 3,
+    "externalServices": 8
+  }
+}

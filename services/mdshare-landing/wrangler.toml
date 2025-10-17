@@ -1,0 +1,45 @@
+name = "mdshare-web"
+compatibility_date = "2024-09-02"
+pages_build_output_dir = ".vercel/output/static"
+compatibility_flags = ["nodejs_compat_v2"]
+
+# ============================================
+# 환경 변수 설정 메모
+# ============================================
+# Cloudflare Pages는 환경 변수를 wrangler.toml이 아닌
+# wrangler pages secret 명령어로 설정해야 함
+# 
+# 설정 방법:
+# 1. ./setup-env-vars.sh 실행 (환경 변수 자동 설정)
+# 2. 또는 수동으로:
+#    wrangler pages secret put OPENAI_API_KEY --project-name=mdshare-web
+#    wrangler pages secret put NEXT_PUBLIC_APP_URL --project-name=mdshare-web
+#
+# 현재 설정된 환경 변수 확인:
+#    wrangler pages secret list --project-name=mdshare-web
+#
+# 기존 환경 변수 삭제:
+#    wrangler pages secret delete OPENAI_API_KEY --project-name=mdshare-web
+# ============================================
+
+# Environment variables (add your actual values)
+# NEXT_PUBLIC_ 변수들은 secrets로 설정됨
+# [vars]
+# NEXT_PUBLIC_APP_URL = "https://mdshare-web.pages.dev"
+# NEXT_PUBLIC_API_URL = "https://mdshare-web.pages.dev"
+
+# KV namespaces for caching and storage
+# [[kv_namespaces]]
+# binding = "MDSHARE_KV"
+# id = "your-kv-namespace-id"
+
+# D1 Database for project metadata (optional)
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "mdshare-projects"
+# database_id = "your-database-id"
+
+# R2 Bucket for file storage (optional)
+# [[r2_buckets]]
+# binding = "FILES"
+# bucket_name = "mdshare-files"

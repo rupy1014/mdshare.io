@@ -1,0 +1,38 @@
+{
+  "projectId": "test-project",
+  "lastIndexed": "2025-10-17T05:23:32.035Z",
+  "documentCount": 1,
+  "totalWords": 115,
+  "structure": [
+    {
+      "path": "README.md",
+      "title": "Test Project",
+      "type": "markdown",
+      "tags": [
+        "documentation",
+        "getting-started"
+      ],
+      "category": "overview",
+      "author": "Test Author",
+      "createdAt": "2025-10-17T05:23:32.014Z",
+      "updatedAt": "2025-10-17T05:23:32.014Z",
+      "wordCount": 115,
+      "readingTime": 1
+    }
+  ],
+  "statistics": {
+    "wordCount": {
+      "README.md": 115
+    },
+    "categoryCount": {
+      "overview": 3
+    },
+    "tagCount": {
+      "documentation": 3,
+      "getting-started": 3
+    },
+    "authorCount": {
+      "Test Author": 3
+    }
+  }
+}

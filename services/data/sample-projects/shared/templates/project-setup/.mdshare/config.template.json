@@ -1,0 +1,52 @@
+{
+  "project": {
+    "name": "{{PROJECT_NAME}}",
+    "version": "1.0.0",
+    "description": "{{PROJECT_DESCRIPTION}}",
+    "author": "{{AUTHOR_NAME}}",
+    "license": "{{LICENSE_TYPE}}",
+    "language": "ko",
+    "createdAt": "{{CREATED_DATE}}",
+    "updatedAt": "{{UPDATED_DATE}}",
+    "type": "{{PROJECT_TYPE}}",
+    "criticality": "{{CRITICALITY_LEVEL}}"
+  },
+  "settings": {
+    "theme": "{{THEME_NAME}}",
+    "navigation": "sidebar",
+    "searchEnabled": true,
+    "aiFeaturesEnabled": true,
+    "autoIndexingEnabled": true,
+    "chatbotEnabled": true,
+    "allowDownload": true,
+    "allowComments": false
+  },
+  "ai": {
+    "autoTagging": true,
+    "autoCategorization": true,
+    "relationshipAnalysis": true,
+    "contentSuggestions": true,
+    "embeddingModel": "text-embedding-3-small",
+    "chatModel": "gpt-4o-mini",
+    "crossProjectAnalysis": true
+  },
+  "access": {
+    "visibility": "{{VISIBILITY_LEVEL}}",
+    "inviteCode": "{{INVITE_CODE}}",
+    "allowedDomains": ["{{ALLOWED_DOMAINS}}"],
+    "passwordProtected": false,
+    "roleBasedAccess": false
+  },
+  "deployment": {
+    "method": "{{DEPLOYMENT_METHOD}}",
+    "customDomain": "{{CUSTOM_DOMAIN}}",
+    "autoDeploy": true,
+    "buildCommand": "{{BUILD_COMMAND}}",
+    "environment": "{{ENVIRONMENT}}"
+  },
+  "integration": {
+    "dependsOn": ["{{DEPENDENCIES}}"],
+    "usedBy": ["{{CONSUMERS}}"],
+    "{{INTEGRATION_SPECIFIC}}": "{{SPECIFIC_VALUE}}"
+  }
+}

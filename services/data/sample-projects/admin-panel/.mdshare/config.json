@@ -1,0 +1,55 @@
+{
+  "project": {
+    "name": "Admin Panel",
+    "version": "3.2.0",
+    "description": "시스템 관리 및 모니터링을 위한 관리자 패널",
+    "author": "프론트엔드팀",
+    "license": "Proprietary",
+    "language": "ko",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-13T11:30:00Z",
+    "type": "management-ui",
+    "criticality": "medium"
+  },
+  "settings": {
+    "theme": "admin-dark",
+    "navigation": "sidebar",
+    "searchEnabled": true,
+    "aiFeaturesEnabled": true,
+    "autoIndexingEnabled": true,
+    "chatbotEnabled": true,
+    "allowDownload": true,
+    "allowComments": true
+  },
+  "ai": {
+    "autoTagging": true,
+    "autoCategorization": true,
+    "relationshipAnalysis": true,
+    "contentSuggestions": true,
+    "embeddingModel": "text-embedding-3-small",
+    "chatModel": "gpt-4o-mini",
+    "crossProjectAnalysis": true
+  },
+  "access": {
+    "visibility": "private",
+    "inviteCode": "ADMIN_PANEL_2024",
+    "allowedDomains": ["company.com"],
+    "passwordProtected": true,
+    "roleBasedAccess": true,
+    "requiredRoles": ["admin", "super-admin"]
+  },
+  "deployment": {
+    "method": "kubernetes",
+    "customDomain": "admin.company.com",
+    "autoDeploy": true,
+    "buildCommand": "npm run build",
+    "environment": "production"
+  },
+  "integration": {
+    "dependsOn": ["internal-api", "analytics-service"],
+    "usedBy": ["admin-users"],
+    "features": ["user-management", "system-monitoring", "analytics-dashboard", "configuration"],
+    "uiComponents": 45,
+    "apiConnections": 12
+  }
+}

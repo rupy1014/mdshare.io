@@ -1,0 +1,55 @@
+{
+  "project": {
+    "name": "External API Service",
+    "version": "1.8.0",
+    "description": "외부 클라이언트를 위한 공개 API 서비스",
+    "author": "API팀",
+    "license": "Proprietary",
+    "language": "ko",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-14T16:20:00Z",
+    "type": "public-api",
+    "criticality": "high"
+  },
+  "settings": {
+    "theme": "default",
+    "navigation": "sidebar",
+    "searchEnabled": true,
+    "aiFeaturesEnabled": true,
+    "autoIndexingEnabled": true,
+    "chatbotEnabled": true,
+    "allowDownload": true,
+    "allowComments": true
+  },
+  "ai": {
+    "autoTagging": true,
+    "autoCategorization": true,
+    "relationshipAnalysis": true,
+    "contentSuggestions": true,
+    "embeddingModel": "text-embedding-3-small",
+    "chatModel": "gpt-4o-mini",
+    "crossProjectAnalysis": true
+  },
+  "access": {
+    "visibility": "public",
+    "inviteCode": null,
+    "allowedDomains": ["*"],
+    "passwordProtected": false,
+    "roleBasedAccess": false
+  },
+  "deployment": {
+    "method": "kubernetes",
+    "customDomain": "api.company.com",
+    "autoDeploy": true,
+    "buildCommand": "docker build -t external-api .",
+    "environment": "production"
+  },
+  "integration": {
+    "dependsOn": ["internal-api", "analytics-service"],
+    "usedBy": ["user-portal", "mobile-apps", "partner-apis"],
+    "apiEndpoints": 32,
+    "apiVersion": "v1",
+    "rateLimiting": "enabled",
+    "documentation": "swagger"
+  }
+}

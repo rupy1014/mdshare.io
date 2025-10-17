@@ -1,0 +1,42 @@
+{
+  "project": {
+    "name": "My Documentation",
+    "version": "1.2.0",
+    "description": "개인 프로젝트 문서화 예시",
+    "author": "김개발",
+    "license": "MIT",
+    "language": "ko",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T10:30:00Z"
+  },
+  "settings": {
+    "theme": "default",
+    "navigation": "sidebar",
+    "searchEnabled": true,
+    "aiFeaturesEnabled": true,
+    "autoIndexingEnabled": true,
+    "chatbotEnabled": true,
+    "allowDownload": true,
+    "allowComments": false
+  },
+  "ai": {
+    "autoTagging": true,
+    "autoCategorization": true,
+    "relationshipAnalysis": true,
+    "contentSuggestions": true,
+    "embeddingModel": "text-embedding-3-small",
+    "chatModel": "gpt-4o-mini"
+  },
+  "access": {
+    "visibility": "private",
+    "inviteCode": "ABC123",
+    "allowedDomains": [],
+    "passwordProtected": false
+  },
+  "deployment": {
+    "method": "github-pages",
+    "customDomain": "docs.myproject.com",
+    "autoDeploy": true,
+    "buildCommand": "npm run build"
+  }
+}
