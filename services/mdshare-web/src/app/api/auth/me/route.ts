@@ -17,6 +17,14 @@ const mockUsers = [
     role: 'editor' as const,
     createdAt: new Date('2024-01-02'),
     lastLoginAt: new Date()
+  },
+  {
+    id: 'user-3',
+    email: 'viewer@mdshare.com',
+    name: '이뷰어',
+    role: 'viewer' as const,
+    createdAt: new Date('2024-01-03'),
+    lastLoginAt: new Date()
   }
 ]
 

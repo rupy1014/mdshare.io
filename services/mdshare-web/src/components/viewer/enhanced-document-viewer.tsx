@@ -23,15 +23,18 @@ interface EnhancedDocumentViewerProps {
   content: string
   documentInfo?: DocumentInfo
   className?: string
+  showToc?: boolean
 }
 
 export function EnhancedDocumentViewer({ 
   content, 
   documentInfo,
-  className = '' 
+  className = '',
+  showToc: propShowToc = true
 }: EnhancedDocumentViewerProps) {
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [showToc, setShowToc] = useState(true)
+  const [showToc, setShowToc] = useState(propShowToc)
+  const [isTocCollapsed, setIsTocCollapsed] = useState(false)
   const [isBookmarked, setIsBookmarked] = useState(false)
   const [fontSize, setFontSize] = useState('medium')
   const [lineHeight, setLineHeight] = useState('relaxed')
@@ -41,7 +44,7 @@ export function EnhancedDocumentViewer({
     // localStorage에서 사용자 설정 불러오기
     const savedFontSize = localStorage.getItem('mdshare-font-size') || 'medium'
     const savedLineHeight = localStorage.getItem('mdshare-line-height') || 'relaxed'
-    const savedShowToc = localStorage.getItem('mdshare-show-toc') !== 'false'
+    const savedShowToc = propShowToc && localStorage.getItem('mdshare-show-toc') !== 'false'
     const savedShowMetadata = localStorage.getItem('mdshare-show-metadata') !== 'false'
     
     setFontSize(savedFontSize)
@@ -268,7 +271,28 @@ export function EnhancedDocumentViewer({
         {/* 목차 사이드바 */}
         {showToc && (
           <div className="w-80 border-r border-border bg-muted/20 p-4 overflow-y-auto max-h-screen sticky top-16">
-            <TableOfContents content={content} />
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-muted-foreground">목차</h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsTocCollapsed(!isTocCollapsed)}
+                  className="h-6 w-6 p-0"
+                >
+                  {isTocCollapsed ? (
+                    <Eye className="h-3 w-3" />
+                  ) : (
+                    <EyeOff className="h-3 w-3" />
+                  )}
+                </Button>
+              </div>
+              {!isTocCollapsed && (
+                <div className="max-h-96 overflow-y-auto border rounded-lg p-3 bg-background">
+                  <TableOfContents content={content} />
+                </div>
+              )}
+            </div>
           </div>
         )}
 

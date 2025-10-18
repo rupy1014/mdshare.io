@@ -33,14 +33,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const token = localStorage.getItem('mdshare-access-token')
     if (token) {
       setIsLoading(true)
-      const result = await api.me()
-      if (result.success && result.data) {
-        setUser(result.data)
-        setIsAuthenticated(true)
-      } else {
+      try {
+        const result = await api.me()
+        if (result.success && result.data) {
+          setUser(result.data)
+          setIsAuthenticated(true)
+        } else {
+          console.warn('사용자 정보 조회 실패:', result.error?.message)
+          clearSession()
+        }
+      } catch (error) {
+        console.error('사용자 정보 조회 오류:', error)
         clearSession()
+      } finally {
+        setIsLoading(false)
       }
-      setIsLoading(false)
     } else {
       setIsLoading(false)
     }

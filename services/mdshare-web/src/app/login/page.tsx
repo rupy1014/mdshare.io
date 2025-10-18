@@ -13,7 +13,8 @@ import {
   Rocket,
   Eye,
   EyeOff,
-  AlertCircle
+  AlertCircle,
+  Chrome
 } from 'lucide-react'
 import { useAuth } from '@/hooks/use-auth'
 
@@ -33,6 +34,10 @@ export default function LoginPage() {
     setError(null) // 입력 시 오류 메시지 제거
   }
 
+  const handleGoogleLogin = () => {
+    window.location.href = '/api/oauth/google'
+  }
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     
@@ -49,7 +54,7 @@ export default function LoginPage() {
       
       if (success) {
         // 대시보드로 리다이렉트
-        router.push('/dashboard')
+        router.push('/ko/dashboard')
       } else {
         setError('이메일 또는 비밀번호가 올바르지 않습니다')
       }
@@ -101,6 +106,30 @@ export default function LoginPage() {
               )}
 
               <form onSubmit={handleLogin} className="space-y-4">
+                {/* 구글 로그인 버튼 */}
+                <Button 
+                  type="button"
+                  variant="outline" 
+                  className="w-full"
+                  onClick={handleGoogleLogin}
+                  disabled={isLoading}
+                >
+                  <Chrome className="h-4 w-4 mr-2" />
+                  구글로 로그인
+                </Button>
+
+                {/* 구분선 */}
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      또는
+                    </span>
+                  </div>
+                </div>
+
                 <div>
                   <Label htmlFor="email">이메일</Label>
                   <Input
@@ -170,7 +199,7 @@ export default function LoginPage() {
           </Card>
 
           {/* 데모 계정 안내 */}
-          <Card className="mt-6">
+          {/* <Card className="mt-6">
             <CardContent className="p-4">
               <h3 className="font-semibold mb-2">데모 계정</h3>
               <div className="space-y-2 text-sm">
@@ -191,7 +220,7 @@ export default function LoginPage() {
                 모든 계정의 비밀번호는 'admin123', 'editor123', 'viewer123'입니다
               </p>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </div>

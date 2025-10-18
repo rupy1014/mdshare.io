@@ -1,0 +1,186 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "download": "Download",
+    "upload": "Upload",
+    "copy": "Copy",
+    "share": "Share",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "documents": "Documents",
+    "workspace": "Workspace",
+    "members": "Members",
+    "settings": "Settings",
+    "help": "Help",
+    "about": "About"
+  },
+  "landing": {
+    "hero": {
+      "title": "Intelligent Knowledge Management Platform",
+      "subtitle": "AI-powered Markdown-based Document Management System",
+      "description": "MDShare provides an intuitive Notion-like interface for managing markdown documents, with seamless Claude Code integration for intelligent document workflows.",
+      "cta": "Start 14-Day Free Trial",
+      "demo": "Try Live Demo"
+    },
+    "livePreview": {
+      "title": "Live Preview",
+      "subtitle": "See results instantly as you type markdown",
+      "placeholder": "Enter your markdown here...\n\n# Heading\n\n## Subheading\n\nUse regular text, **bold**, and *italic* formatting.\n\n- List item 1\n- List item 2\n\n@csv\nName,Age,Occupation\nJohn Doe,30,Developer\nJane Smith,25,Designer\n\n@mermaid\ngraph TD\n    A[Start] --> B{Condition}\n    B -->|Yes| C[Execute]\n    B -->|No| D[End]\n    C --> D"
+    },
+    "whyMdshare": {
+      "title": "Why MDShare?",
+      "features": [
+        {
+          "title": "AI Integration",
+          "description": "Seamless Claude Code integration for intelligent document workflows"
+        },
+        {
+          "title": "Git Sync",
+          "description": "Real-time synchronization with Git repositories for automated version control"
+        },
+        {
+          "title": "Collaboration",
+          "description": "Real-time collaboration and permission management for optimal team work"
+        },
+        {
+          "title": "Extensible",
+          "description": "Unlimited extensibility through plugins and APIs"
+        }
+      ]
+    },
+    "howToUse": {
+      "title": "How to Use",
+      "steps": [
+        {
+          "title": "Create Workspace",
+          "description": "Create workspaces for teams or projects to manage documents systematically."
+        },
+        {
+          "title": "Write Documents",
+          "description": "Write documents in markdown and preview results in real-time."
+        },
+        {
+          "title": "Leverage AI",
+          "description": "Query your document base and generate new documents through Claude Code."
+        },
+        {
+          "title": "Sync",
+          "description": "Experience automatic synchronization between local and cloud through Git integration."
+        }
+      ]
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Welcome to MDShare",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Create a new account",
+      "namePlaceholder": "Enter your name",
+      "emailPlaceholder": "Enter your email",
+      "passwordPlaceholder": "Enter your password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "agreeTerms": "I agree to the terms of service",
+      "hasAccount": "Already have an account?",
+      "signIn": "Sign in"
+    }
+  },
+  "workspace": {
+    "create": {
+      "title": "Create Workspace",
+      "subtitle": "Create a new workspace",
+      "namePlaceholder": "Enter workspace name",
+      "descriptionPlaceholder": "Enter workspace description (optional)",
+      "createButton": "Create Workspace"
+    },
+    "join": {
+      "title": "Join Workspace",
+      "subtitle": "Enter invite code to join workspace",
+      "inviteCodePlaceholder": "Enter invite code",
+      "joinButton": "Join"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome",
+    "recentDocuments": "Recent Documents",
+    "quickActions": "Quick Actions",
+    "createDocument": "Create Document",
+    "uploadFile": "Upload File",
+    "inviteMembers": "Invite Members"
+  },
+  "document": {
+    "create": "Create Document",
+    "edit": "Edit Document",
+    "delete": "Delete Document",
+    "share": "Share Document",
+    "export": "Export Document",
+    "title": "Title",
+    "content": "Content",
+    "tags": "Tags",
+    "lastModified": "Last Modified",
+    "createdBy": "Created By"
+  },
+  "member": {
+    "invite": "Invite Member",
+    "remove": "Remove Member",
+    "changeRole": "Change Role",
+    "roles": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    }
+  },
+  "notification": {
+    "title": "Notifications",
+    "markAsRead": "Mark as Read",
+    "delete": "Delete",
+    "noNotifications": "No notifications",
+    "types": {
+      "documentUpdated": "Document updated",
+      "memberJoined": "New member joined",
+      "memberLeft": "Member left",
+      "roleChanged": "Role changed"
+    }
+  },
+  "error": {
+    "notFound": "Page not found",
+    "unauthorized": "Unauthorized access",
+    "serverError": "Server error occurred",
+    "networkError": "Network error occurred"
+  }
+}

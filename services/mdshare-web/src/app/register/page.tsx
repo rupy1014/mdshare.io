@@ -27,18 +27,21 @@ export default function RegisterPage() {
   const [formData, setFormData] = useState<RegisterData>({
     email: '',
     password: '',
-    name: ''
+    name: '' // 임시로 유지, 나중에 프로필 페이지에서 사용
   })
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const handleInputChange = (field: keyof RegisterData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     setError(null)
   }
 
+  const handleConfirmPasswordChange = (value: string) => {
+    setConfirmPassword(value)
+    setError(null)
+  }
+
   const validateForm = (): string | null => {
-    if (!formData.name.trim()) {
-      return '이름을 입력해주세요'
-    }
     if (!formData.email.trim()) {
       return '이메일을 입력해주세요'
     }
@@ -47,6 +50,12 @@ export default function RegisterPage() {
     }
     if (formData.password.length < 6) {
       return '비밀번호는 최소 6자 이상이어야 합니다'
+    }
+    if (!confirmPassword) {
+      return '비밀번호 확인을 입력해주세요'
+    }
+    if (formData.password !== confirmPassword) {
+      return '비밀번호가 일치하지 않습니다'
     }
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -76,8 +85,8 @@ export default function RegisterPage() {
         // 세션 저장
         apiClient.setAuth(response.data)
         
-        // 워크스페이스 생성 페이지로 리다이렉트
-        router.push('/workspace/create')
+        // 프로필 설정 페이지로 리다이렉트
+        router.push('/profile/setup')
       } else {
         setError(response.error?.message || '회원가입에 실패했습니다')
       }
@@ -130,19 +139,6 @@ export default function RegisterPage() {
 
               <form onSubmit={handleRegister} className="space-y-4">
                 <div>
-                  <Label htmlFor="name">이름</Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="홍길동"
-                    value={formData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
-                    className="mt-1"
-                    disabled={isLoading}
-                  />
-                </div>
-
-                <div>
                   <Label htmlFor="email">이메일</Label>
                   <Input
                     id="email"
@@ -164,6 +160,34 @@ export default function RegisterPage() {
                       placeholder="최소 6자 이상"
                       value={formData.password}
                       onChange={(e) => handleInputChange('password', e.target.value)}
+                      disabled={isLoading}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                      onClick={() => setShowPassword(!showPassword)}
+                      disabled={isLoading}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <Label htmlFor="confirmPassword">비밀번호 확인</Label>
+                  <div className="relative mt-1">
+                    <Input
+                      id="confirmPassword"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="비밀번호를 다시 입력하세요"
+                      value={confirmPassword}
+                      onChange={(e) => handleConfirmPasswordChange(e.target.value)}
                       disabled={isLoading}
                     />
                     <Button
@@ -213,24 +237,27 @@ export default function RegisterPage() {
           {/* 가입 혜택 안내 */}
           <Card className="mt-6">
             <CardContent className="p-4">
-              <h3 className="font-semibold mb-3">회원가입 혜택</h3>
+              <h3 className="font-semibold mb-3">14일 무료 체험</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span>무제한 워크스페이스 생성</span>
+                  <span>모든 프리미엄 기능 무료 체험</span>
+                </div> 
+                <div className="flex items-center space-x-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span>AI 자동화 도구 완전 활용</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span>Claude Code 연동 지원</span>
+                  <span>월 800만원 달성 가능</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span>Git 기반 문서 동기화</span>
+                  <span>체험 후 자동 유료 전환</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <CheckCircle className="h-4 w-4 text-green-500" />
-                  <span>팀 협업 기능</span>
-                </div>
+              </div>
+              <div className="mt-3 p-2 bg-blue-50 rounded text-xs text-blue-700">
+                💡 체험 기간 중 언제든 취소 가능하며, 체험 종료 전에 취소하지 않으면 자동으로 유료 전환됩니다
               </div>
             </CardContent>
           </Card>

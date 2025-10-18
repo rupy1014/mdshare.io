@@ -10,7 +10,8 @@ import {
   ExternalLink, 
   Loader2,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Chrome
 } from 'lucide-react'
 import { oauthService } from '@/lib/oauth-service'
 import type { OAuthProvider, OAuthUser, OAuthRepository } from '@/types/oauth'
@@ -45,6 +46,8 @@ export function OAuthLogin({ onLoginSuccess, onLoginError }: OAuthLoginProps) {
 
   const getProviderIcon = (provider: OAuthProvider) => {
     switch (provider.id) {
+      case 'google':
+        return <Chrome className="h-5 w-5" />
       case 'github':
         return <Github className="h-5 w-5" />
       case 'gitlab':
@@ -56,6 +59,8 @@ export function OAuthLogin({ onLoginSuccess, onLoginError }: OAuthLoginProps) {
 
   const getProviderDescription = (provider: OAuthProvider) => {
     switch (provider.id) {
+      case 'google':
+        return '구글 계정으로 로그인하여 서비스에 접근하세요'
       case 'github':
         return 'GitHub 계정으로 로그인하여 저장소에 접근하세요'
       case 'gitlab':
@@ -67,6 +72,8 @@ export function OAuthLogin({ onLoginSuccess, onLoginError }: OAuthLoginProps) {
 
   const getProviderBadgeColor = (provider: OAuthProvider) => {
     switch (provider.id) {
+      case 'google':
+        return 'bg-red-500 text-white hover:bg-red-600'
       case 'github':
         return 'bg-gray-900 text-white hover:bg-gray-800'
       case 'gitlab':
