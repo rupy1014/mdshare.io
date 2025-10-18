@@ -48,6 +48,29 @@ export function ExtendedMarkdownViewer({ content, basePath = '' }: ExtendedMarkd
   const processExtendedElements = (html: string) => {
     let processedHtml = html
 
+    // 헤딩에 ID 추가 (목차 네비게이션용)
+    let headingIndex = 0
+    processedHtml = processedHtml.replace(
+      /<h([1-6])([^>]*)>(.*?)<\/h[1-6]>/g,
+      (match, level, attributes, content) => {
+        const headingText = content.replace(/<[^>]*>/g, '') // HTML 태그 제거
+        let headingId = headingText
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .trim()
+        
+        // 빈 문자열이거나 하이픈만 있는 경우 처리
+        if (!headingId || headingId === '-') {
+          headingId = `heading-${headingIndex}`
+        }
+        
+        headingIndex++
+        return `<h${level}${attributes} id="${headingId}">${content}</h${level}>`
+      }
+    )
+
     // Mermaid 다이어그램 처리 - 간단한 플레이스홀더로 교체
     processedHtml = processedHtml.replace(
       /<div class="mermaid-diagram" data-type="mermaid">\s*([\s\S]*?)\s*<\/div>/g,

@@ -9,7 +9,6 @@ import {
   Share2, 
   Download, 
   Bookmark, 
-  BookmarkCheck,
   Eye,
   EyeOff,
   Maximize2,
@@ -137,7 +136,7 @@ export function EnhancedDocumentViewer({
   return (
     <div className={`enhanced-document-viewer ${isFullscreen ? 'fixed inset-0 z-50 bg-background' : ''} ${className}`}>
       {/* 툴바 */}
-      <div className="border-b border-border bg-muted/30 sticky top-0 z-10">
+      <div className="border-b border-border bg-background sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center space-x-4">
             {/* 폰트 크기 설정 */}
@@ -211,7 +210,7 @@ export function EnhancedDocumentViewer({
               className="h-8 px-3"
             >
               {isBookmarked ? (
-                <BookmarkCheck className="h-4 w-4 text-primary" />
+                <Bookmark className="h-4 w-4 text-primary" />
               ) : (
                 <Bookmark className="h-4 w-4" />
               )}

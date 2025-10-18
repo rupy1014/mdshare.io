@@ -225,34 +225,6 @@ export function AccessGate({ children, requiredRole }: AccessGateProps) {
   // 인증된 사용자 - 정상 접근
   return (
     <AccessGateContext.Provider value={contextValue}>
-      {/* 사용자 정보 표시 */}
-      <div className="fixed top-20 right-4 z-50">
-        <Card className="w-64 shadow-lg">
-          <CardContent className="p-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <User className="h-4 w-4" />
-                <div>
-                  <p className="text-sm font-medium truncate">{user.email}</p>
-                  <Badge variant={getRoleBadgeVariant(user.role)} className="text-xs">
-                    {user.role === 'admin' ? '관리자' : 
-                     user.role === 'editor' ? '에디터' : '뷰어'}
-                  </Badge>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleLogout}
-                className="h-6 w-6 p-0"
-              >
-                <LogOut className="h-3 w-3" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
       {/* 메인 콘텐츠 */}
       {children}
     </AccessGateContext.Provider>

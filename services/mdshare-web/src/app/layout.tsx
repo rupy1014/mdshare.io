@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/ui/theme-provider'
+import { AuthProvider } from '@/hooks/use-auth'
+import { SkipToContent } from '@/components/accessibility/accessibility-panel'
+import { FocusIndicator } from '@/components/accessibility/accessibility-panel'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,13 +22,19 @@ export default function RootLayout({
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className={inter.className}>
+        <SkipToContent />
+        <FocusIndicator />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>
+            <main id="main-content" tabIndex={-1}>
+              {children}
+            </main>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -125,7 +125,7 @@ export function CsvRenderer({ csvPath }: CsvRendererProps) {
             }
             setIsLoading(false)
           },
-          error: (error) => {
+          error: (error: any) => {
             setError(`CSV 로드 오류: ${error.message}`)
             setIsLoading(false)
           }

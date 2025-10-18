@@ -1,12 +1,27 @@
 'use client'
 
 import { AccessManager } from '@/components/access-control/access-manager'
-import { useAccessGate } from '@/components/access-control/access-gate'
+// import { useAccessGate } from '@/components/access-control/access-gate'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AlertTriangle } from 'lucide-react'
 
 export default function AccessPage() {
-  const { hasRole } = useAccessGate()
+  // localStorage에서 사용자 정보 확인
+  const hasRole = (role: string) => {
+    if (typeof window === 'undefined') return false
+    
+    const savedUser = localStorage.getItem('mdshare-user')
+    if (savedUser) {
+      try {
+        const userData = JSON.parse(savedUser)
+        const roleHierarchy: Record<string, number> = { viewer: 1, editor: 2, admin: 3 }
+        return roleHierarchy[userData.role] >= roleHierarchy[role]
+      } catch (error) {
+        return false
+      }
+    }
+    return false
+  }
 
   if (!hasRole('admin')) {
     return (
