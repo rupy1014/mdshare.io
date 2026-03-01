@@ -1,0 +1,12 @@
+name = "openhow"
+compatibility_date = "2026-03-01"
+
+[vars]
+DB_STRICT = "1"
+BETTER_AUTH_URL = "https://openhow.io"
+
+# D1 binding (fill database_id with your actual D1 id)
+[[d1_databases]]
+binding = "DB"
+database_name = "mdshare-prod"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
