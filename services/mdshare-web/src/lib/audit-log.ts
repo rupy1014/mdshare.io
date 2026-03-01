@@ -1,3 +1,5 @@
+import { readJsonFile, writeJsonFile } from '@/lib/persistence'
+
 export interface AuditLogEntry {
   id: string
   actorId: string
@@ -11,8 +13,9 @@ export interface AuditLogEntry {
   createdAt: Date
 }
 
-// TODO: Replace with DB persistence when mdshare-web DB layer is stabilized.
-const auditStore: AuditLogEntry[] = []
+type Persisted = Omit<AuditLogEntry, 'createdAt'> & { createdAt: string }
+
+const FILE = 'audit_logs.json'
 
 export function appendAuditLog(entry: Omit<AuditLogEntry, 'id' | 'createdAt'>): AuditLogEntry {
   const row: AuditLogEntry = {
@@ -20,10 +23,21 @@ export function appendAuditLog(entry: Omit<AuditLogEntry, 'id' | 'createdAt'>): 
     createdAt: new Date(),
     ...entry,
   }
-  auditStore.unshift(row)
+
+  // best-effort async persistence
+  void (async () => {
+    const rows = await readJsonFile<Persisted[]>(FILE, [])
+    rows.unshift({ ...row, createdAt: row.createdAt.toISOString() })
+    await writeJsonFile(FILE, rows.slice(0, 5000))
+  })()
+
   return row
 }
 
-export function listAuditLogs(workspaceId: string, limit = 100): AuditLogEntry[] {
-  return auditStore.filter((r) => r.workspaceId === workspaceId).slice(0, limit)
+export async function listAuditLogs(workspaceId: string, limit = 100): Promise<AuditLogEntry[]> {
+  const rows = await readJsonFile<Persisted[]>(FILE, [])
+  return rows
+    .filter((r) => r.workspaceId === workspaceId)
+    .slice(0, limit)
+    .map((r) => ({ ...r, createdAt: new Date(r.createdAt) }))
 }
