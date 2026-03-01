@@ -25,7 +25,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
   const doc = docs.find((d) => d.workspaceId === workspaceId && d.id === docId)
   if (!doc) return NextResponse.json({ success: false, error: { code: 'DOCUMENT_NOT_FOUND', message: '문서를 찾을 수 없습니다' } }, { status: 404 })
 
-  const rows = (await getComments()).filter((c) => c.workspaceId === workspaceId && c.documentId === docId)
+  const rows = await getComments(workspaceId, docId)
   const mapped = rows.map((c) => ({ ...c, isOutdated: c.docVersionAtWrite !== doc.version, currentVersion: doc.version }))
   const summary = {
     total: rows.length,

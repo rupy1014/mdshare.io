@@ -1,6 +1,9 @@
 import { readJsonFile, writeJsonFile } from '@/lib/persistence'
 import type { WorkspaceRole } from '@/lib/rbac'
 import type { Comment } from '@/types/comment'
+import { getDb } from '@/lib/db/client'
+import { comments as commentsTable } from '@/lib/db/schema'
+import { and, eq } from 'drizzle-orm'
 
 type Member = { workspaceId: string; userId: string; role: WorkspaceRole }
 type DocStatus = 'draft' | 'reviewed' | 'canonical'
@@ -37,11 +40,63 @@ export async function saveDocuments(rows: DocRow[]): Promise<void> {
   await writeJsonFile('documents.json', rows)
 }
 
-export async function getComments(): Promise<Comment[]> {
+export async function getComments(workspaceId?: string, documentId?: string): Promise<Comment[]> {
+  const db = getDb()
+  if (db) {
+    const where = workspaceId && documentId
+      ? and(eq(commentsTable.workspaceId, workspaceId), eq(commentsTable.documentId, documentId))
+      : workspaceId
+      ? eq(commentsTable.workspaceId, workspaceId)
+      : undefined
+
+    const rows = where ? await db.select().from(commentsTable).where(where) : await db.select().from(commentsTable)
+
+    return rows.map((r) => ({
+      id: r.id,
+      workspaceId: r.workspaceId,
+      documentId: r.documentId,
+      documentSlug: r.documentSlug,
+      anchorId: r.anchorId ?? undefined,
+      authorId: r.authorId,
+      authorName: r.authorName,
+      content: r.content,
+      status: r.status as Comment['status'],
+      docVersionAtWrite: r.docVersionAtWrite,
+      createdAt: new Date(r.createdAt),
+      updatedAt: new Date(r.updatedAt),
+    }))
+  }
+
   const rows = await readJsonFile<Array<Omit<Comment, 'createdAt' | 'updatedAt'> & { createdAt: string; updatedAt: string }>>('comments.json', [])
-  return rows.map((r) => ({ ...r, createdAt: new Date(r.createdAt), updatedAt: new Date(r.updatedAt) }))
+  const mapped = rows.map((r) => ({ ...r, createdAt: new Date(r.createdAt), updatedAt: new Date(r.updatedAt) }))
+  return mapped.filter((r) => (!workspaceId || r.workspaceId === workspaceId) && (!documentId || r.documentId === documentId))
 }
 
 export async function saveComments(rows: Comment[]): Promise<void> {
+  const db = getDb()
+  if (db) {
+    // Simple replace strategy for now; optimize with upsert later.
+    await db.delete(commentsTable)
+    if (rows.length > 0) {
+      await db.insert(commentsTable).values(
+        rows.map((r) => ({
+          id: r.id,
+          workspaceId: r.workspaceId,
+          documentId: r.documentId,
+          documentSlug: r.documentSlug,
+          anchorId: r.anchorId ?? null,
+          authorId: r.authorId,
+          authorName: r.authorName,
+          content: r.content,
+          status: r.status,
+          docVersionAtWrite: r.docVersionAtWrite,
+          createdAt: r.createdAt,
+          updatedAt: r.updatedAt,
+        }))
+      )
+    }
+    return
+  }
+
   await writeJsonFile('comments.json', rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString(), updatedAt: r.updatedAt.toISOString() })))
 }
