@@ -1,7 +1,7 @@
 import { readJsonFile, writeJsonFile } from '@/lib/persistence'
 import type { WorkspaceRole } from '@/lib/rbac'
 import type { Comment } from '@/types/comment'
-import { getDb } from '@/lib/db/client'
+import { getDb, isDbStrictMode } from '@/lib/db/client'
 import { comments as commentsTable } from '@/lib/db/schema'
 import { and, eq } from 'drizzle-orm'
 
@@ -67,6 +67,10 @@ export async function getComments(workspaceId?: string, documentId?: string): Pr
     }))
   }
 
+  if (isDbStrictMode()) {
+    throw new Error('DB_STRICT is enabled: file fallback for comments is disabled')
+  }
+
   const rows = await readJsonFile<Array<Omit<Comment, 'createdAt' | 'updatedAt'> & { createdAt: string; updatedAt: string }>>('comments.json', [])
   const mapped = rows.map((r) => ({ ...r, createdAt: new Date(r.createdAt), updatedAt: new Date(r.updatedAt) }))
   return mapped.filter((r) => (!workspaceId || r.workspaceId === workspaceId) && (!documentId || r.documentId === documentId))
@@ -106,6 +110,10 @@ export async function saveComments(
       )
     }
     return
+  }
+
+  if (isDbStrictMode()) {
+    throw new Error('DB_STRICT is enabled: file fallback for comments is disabled')
   }
 
   const persisted = await readJsonFile<Array<Omit<Comment, 'createdAt' | 'updatedAt'> & { createdAt: string; updatedAt: string }>>('comments.json', [])

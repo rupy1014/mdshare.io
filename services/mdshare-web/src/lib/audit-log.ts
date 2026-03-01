@@ -1,5 +1,5 @@
 import { readJsonFile, writeJsonFile } from '@/lib/persistence'
-import { getDb } from '@/lib/db/client'
+import { getDb, isDbStrictMode } from '@/lib/db/client'
 import { auditLogs } from '@/lib/db/schema'
 import { desc, eq } from 'drizzle-orm'
 
@@ -46,6 +46,10 @@ export function appendAuditLog(entry: Omit<AuditLogEntry, 'id' | 'createdAt'>): 
       return
     }
 
+    if (isDbStrictMode()) {
+      throw new Error('DB_STRICT is enabled: file fallback for audit logs is disabled')
+    }
+
     const rows = await readJsonFile<Persisted[]>(FILE, [])
     rows.unshift({ ...row, createdAt: row.createdAt.toISOString() })
     await writeJsonFile(FILE, rows.slice(0, 5000))
@@ -76,6 +80,10 @@ export async function listAuditLogs(workspaceId: string, limit = 100): Promise<A
       meta: r.metaJson ? JSON.parse(r.metaJson) : undefined,
       createdAt: new Date(r.createdAt),
     }))
+  }
+
+  if (isDbStrictMode()) {
+    throw new Error('DB_STRICT is enabled: file fallback for audit logs is disabled')
   }
 
   const rows = await readJsonFile<Persisted[]>(FILE, [])

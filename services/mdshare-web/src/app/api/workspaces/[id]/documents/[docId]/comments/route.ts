@@ -3,6 +3,7 @@ import type { Comment } from '@/types/comment'
 import { hasRoleAtLeast } from '@/lib/rbac'
 import { appendAuditLog } from '@/lib/audit-log'
 import { getComments, getDocuments, getMembers, saveComments } from '@/lib/repositories'
+import { isValidAnchorId } from '@/lib/anchor'
 
 function getUserIdFromAuth(req: NextRequest): string | null {
   const authHeader = req.headers.get('authorization')
@@ -58,6 +59,9 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
   const content = String(body?.content ?? '').trim()
   const anchorId = body?.anchorId ? String(body.anchorId) : undefined
   if (!content) return NextResponse.json({ success: false, error: { code: 'INVALID_INPUT', message: '댓글 내용을 입력해주세요' } }, { status: 400 })
+  if (!isValidAnchorId(anchorId)) {
+    return NextResponse.json({ success: false, error: { code: 'INVALID_ANCHOR', message: 'anchorId 형식이 올바르지 않습니다' } }, { status: 400 })
+  }
 
   const rows = await getComments()
   const now = new Date()
