@@ -76,7 +76,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     updatedAt: now,
   }
   rows.push(row)
-  await saveComments(rows)
+  await saveComments(rows, { workspaceId, documentId: docId })
 
   appendAuditLog({ actorId: userId, actorRole: membership.role, workspaceId, action: 'comment:create', targetType: 'comment', targetId: row.id, result: 'success', meta: { documentId: docId, anchorId } })
   return NextResponse.json({ success: true, data: row }, { status: 201 })
@@ -116,7 +116,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
   if (status) rows[idx].status = status
   if (migrateToCurrentVersion) rows[idx].docVersionAtWrite = doc.version
   rows[idx].updatedAt = new Date()
-  await saveComments(rows)
+  await saveComments(rows, { workspaceId, documentId: docId })
 
   appendAuditLog({ actorId: userId, actorRole: membership.role, workspaceId, action: 'comment:patch', targetType: 'comment', targetId: rows[idx].id, result: 'success', meta: { documentId: docId, status, migrateToCurrentVersion } })
   return NextResponse.json({ success: true, data: rows[idx] })

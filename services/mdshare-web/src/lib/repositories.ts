@@ -72,11 +72,21 @@ export async function getComments(workspaceId?: string, documentId?: string): Pr
   return mapped.filter((r) => (!workspaceId || r.workspaceId === workspaceId) && (!documentId || r.documentId === documentId))
 }
 
-export async function saveComments(rows: Comment[]): Promise<void> {
+export async function saveComments(
+  rows: Comment[],
+  scope?: { workspaceId: string; documentId: string }
+): Promise<void> {
   const db = getDb()
   if (db) {
-    // Simple replace strategy for now; optimize with upsert later.
-    await db.delete(commentsTable)
+    // Scope-aware replace: only update target document's comment set.
+    if (scope) {
+      await db
+        .delete(commentsTable)
+        .where(and(eq(commentsTable.workspaceId, scope.workspaceId), eq(commentsTable.documentId, scope.documentId)))
+    } else {
+      await db.delete(commentsTable)
+    }
+
     if (rows.length > 0) {
       await db.insert(commentsTable).values(
         rows.map((r) => ({
@@ -98,5 +108,41 @@ export async function saveComments(rows: Comment[]): Promise<void> {
     return
   }
 
-  await writeJsonFile('comments.json', rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString(), updatedAt: r.updatedAt.toISOString() })))
+  const persisted = await readJsonFile<Array<Omit<Comment, 'createdAt' | 'updatedAt'> & { createdAt: string; updatedAt: string }>>('comments.json', [])
+  let merged = persisted.map((r) => ({ ...r, createdAt: new Date(r.createdAt), updatedAt: new Date(r.updatedAt) }))
+
+  if (scope) {
+    merged = merged.filter((r) => !(r.workspaceId === scope.workspaceId && r.documentId === scope.documentId))
+  } else {
+    merged = []
+  }
+
+  merged.push(...rows)
+
+  await writeJsonFile(
+    'comments.json',
+    merged.map((r) => ({ ...r, createdAt: r.createdAt.toISOString(), updatedAt: r.updatedAt.toISOString() }))
+  )
+}
+
+export async function markCommentsStaleForDocumentVersion(
+  workspaceId: string,
+  documentId: string,
+  nextVersion: string
+): Promise<number> {
+  const rows = await getComments(workspaceId, documentId)
+  let changed = 0
+  const nextRows = rows.map((r) => {
+    if (r.docVersionAtWrite !== nextVersion && r.status !== 'orphaned') {
+      changed += 1
+      return { ...r, status: 'stale' as const, updatedAt: new Date() }
+    }
+    return r
+  })
+
+  if (changed > 0) {
+    await saveComments(nextRows, { workspaceId, documentId })
+  }
+
+  return changed
 }
