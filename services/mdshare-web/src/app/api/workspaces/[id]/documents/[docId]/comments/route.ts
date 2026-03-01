@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { Comment } from '@/types/comment'
+import { hasRoleAtLeast } from '@/lib/rbac'
 
 // Mock member store (same shape used by documents route)
 const mockMembers = [
@@ -103,8 +104,8 @@ export async function POST(
     return NextResponse.json({ success: false, error: { code: 'ACCESS_DENIED', message: '워크스페이스 접근 권한이 없습니다' } }, { status: 403 })
   }
 
-  if (membership.role === 'viewer') {
-    return NextResponse.json({ success: false, error: { code: 'INSUFFICIENT_PERMISSIONS', message: '댓글 작성 권한이 없습니다' } }, { status: 403 })
+  if (!hasRoleAtLeast(membership.role, 'member')) {
+    return NextResponse.json({ success: false, error: { code: 'INSUFFICIENT_PERMISSIONS', message: '댓글 작성 권한이 없습니다 (member 이상 필요)' } }, { status: 403 })
   }
 
   const doc = mockDocuments.find((d) => d.workspaceId === workspaceId && d.id === docId)
@@ -158,8 +159,8 @@ export async function PATCH(
     return NextResponse.json({ success: false, error: { code: 'ACCESS_DENIED', message: '워크스페이스 접근 권한이 없습니다' } }, { status: 403 })
   }
 
-  if (!['admin', 'editor'].includes(membership.role)) {
-    return NextResponse.json({ success: false, error: { code: 'INSUFFICIENT_PERMISSIONS', message: '댓글 상태 변경 권한이 없습니다' } }, { status: 403 })
+  if (!hasRoleAtLeast(membership.role, 'editor')) {
+    return NextResponse.json({ success: false, error: { code: 'INSUFFICIENT_PERMISSIONS', message: '댓글 상태 변경 권한이 없습니다 (editor 이상 필요)' } }, { status: 403 })
   }
 
   const doc = mockDocuments.find((d) => d.workspaceId === workspaceId && d.id === docId)

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { Document } from '@/types/document'
+import { hasRoleAtLeast, type WorkspaceRole } from '@/lib/rbac'
 
 // Mock 문서 저장소 (실제로는 데이터베이스)
 let mockDocuments: Document[] = [
@@ -211,13 +212,13 @@ export async function POST(
       }, { status: 403 })
     }
 
-    // 에디터 권한 확인
-    if (userMembership.role === 'viewer') {
+    // member 이상 문서 작성 가능
+    if (!hasRoleAtLeast(userMembership.role as WorkspaceRole, 'member')) {
       return NextResponse.json({
         success: false,
         error: {
           code: 'INSUFFICIENT_PERMISSIONS',
-          message: '문서를 생성할 권한이 없습니다'
+          message: '문서를 생성할 권한이 없습니다 (member 이상 필요)'
         }
       }, { status: 403 })
     }
