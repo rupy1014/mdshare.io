@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { Document } from '@/types/document'
 import { hasRoleAtLeast, type WorkspaceRole } from '@/lib/rbac'
+import { appendAuditLog } from '@/lib/audit-log'
 
 // Mock 문서 저장소 (실제로는 데이터베이스)
 let mockDocuments: Document[] = [
@@ -214,6 +215,15 @@ export async function POST(
 
     // member 이상 문서 작성 가능
     if (!hasRoleAtLeast(userMembership.role as WorkspaceRole, 'member')) {
+      appendAuditLog({
+        actorId: userId,
+        actorRole: userMembership.role,
+        workspaceId,
+        action: 'doc:create',
+        targetType: 'document',
+        result: 'deny',
+        meta: { reason: 'role<member' },
+      })
       return NextResponse.json({
         success: false,
         error: {
@@ -259,6 +269,17 @@ export async function POST(
     }
 
     mockDocuments.push(newDocument)
+
+    appendAuditLog({
+      actorId: userId,
+      actorRole: userMembership.role,
+      workspaceId,
+      action: 'doc:create',
+      targetType: 'document',
+      targetId: newDocument.id,
+      result: 'success',
+      meta: { path, title },
+    })
 
     return NextResponse.json({
       success: true,

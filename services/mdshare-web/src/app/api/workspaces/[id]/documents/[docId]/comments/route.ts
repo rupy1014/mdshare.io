@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { Comment } from '@/types/comment'
 import { hasRoleAtLeast } from '@/lib/rbac'
+import { appendAuditLog } from '@/lib/audit-log'
 
 // Mock member store (same shape used by documents route)
 const mockMembers = [
@@ -105,6 +106,15 @@ export async function POST(
   }
 
   if (!hasRoleAtLeast(membership.role, 'member')) {
+    appendAuditLog({
+      actorId: userId,
+      actorRole: membership.role,
+      workspaceId,
+      action: 'comment:create',
+      targetType: 'comment',
+      result: 'deny',
+      meta: { reason: 'role<member', documentId: docId },
+    })
     return NextResponse.json({ success: false, error: { code: 'INSUFFICIENT_PERMISSIONS', message: '댓글 작성 권한이 없습니다 (member 이상 필요)' } }, { status: 403 })
   }
 
@@ -139,6 +149,17 @@ export async function POST(
 
   mockComments.push(newComment)
 
+  appendAuditLog({
+    actorId: userId,
+    actorRole: membership.role,
+    workspaceId,
+    action: 'comment:create',
+    targetType: 'comment',
+    targetId: newComment.id,
+    result: 'success',
+    meta: { documentId: docId, anchorId },
+  })
+
   return NextResponse.json({ success: true, data: newComment }, { status: 201 })
 }
 
@@ -160,6 +181,15 @@ export async function PATCH(
   }
 
   if (!hasRoleAtLeast(membership.role, 'editor')) {
+    appendAuditLog({
+      actorId: userId,
+      actorRole: membership.role,
+      workspaceId,
+      action: 'comment:patch',
+      targetType: 'comment',
+      result: 'deny',
+      meta: { reason: 'role<editor', documentId: docId },
+    })
     return NextResponse.json({ success: false, error: { code: 'INSUFFICIENT_PERMISSIONS', message: '댓글 상태 변경 권한이 없습니다 (editor 이상 필요)' } }, { status: 403 })
   }
 
@@ -185,6 +215,17 @@ export async function PATCH(
   if (status) row.status = status
   if (migrateToCurrentVersion) row.docVersionAtWrite = doc.version
   row.updatedAt = new Date()
+
+  appendAuditLog({
+    actorId: userId,
+    actorRole: membership.role,
+    workspaceId,
+    action: 'comment:patch',
+    targetType: 'comment',
+    targetId: row.id,
+    result: 'success',
+    meta: { documentId: docId, status, migrateToCurrentVersion },
+  })
 
   return NextResponse.json({ success: true, data: row })
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { hasRoleAtLeast, type WorkspaceRole } from '@/lib/rbac'
+import { appendAuditLog } from '@/lib/audit-log'
 
 type DocStatus = 'draft' | 'reviewed' | 'canonical'
 
@@ -45,6 +46,16 @@ export async function POST(
   }
 
   if (!hasRoleAtLeast(member.role, 'admin')) {
+    appendAuditLog({
+      actorId: userId,
+      actorRole: member.role,
+      workspaceId,
+      action: 'promote',
+      targetType: 'document',
+      targetId: docId,
+      result: 'deny',
+      meta: { reason: 'role<admin' },
+    })
     return NextResponse.json({
       success: false,
       error: {
@@ -77,6 +88,17 @@ export async function POST(
 
   doc.status = target
   doc.updatedAt = new Date()
+
+  appendAuditLog({
+    actorId: userId,
+    actorRole: member.role,
+    workspaceId,
+    action: 'promote',
+    targetType: 'document',
+    targetId: docId,
+    result: 'success',
+    meta: { to: target },
+  })
 
   return NextResponse.json({ success: true, data: doc })
 }
